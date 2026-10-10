@@ -2,6 +2,7 @@ import { useCallback, useMemo, useReducer } from 'react';
 import { isMap, isScalar, isSeq, parse as parseYaml, parseDocument } from 'yaml';
 import type { Node, Pair, YAMLMap, YAMLSeq } from 'yaml';
 import type {
+  AccessGroupDraft,
   DisableImageGenerationMode,
   PluginStoreAuthApplyTo,
   PluginStoreAuthRule,
@@ -48,6 +49,35 @@ function parseApiKeysText(raw: unknown): string {
     if (key) keys.push(key);
   }
   return keys.join('\n');
+}
+
+function parseAccessGroups(raw: unknown): AccessGroupDraft[] {
+  const record = asRecord(raw);
+  if (!record) return [];
+  return Object.entries(record).map(([name, value], index) => {
+    const item = asRecord(value) ?? {};
+    return {
+      id: `access-group-${index}`,
+      name,
+      apiKeys: parseStringList(item['api-keys']),
+      providers: parseStringList(item.providers),
+    };
+  });
+}
+
+function serializeAccessGroups(
+  groups: AccessGroupDraft[]
+): Record<string, { 'api-keys': string[]; providers?: string[] }> {
+  const out: Record<string, { 'api-keys': string[]; providers?: string[] }> = {};
+  for (const group of groups) {
+    const name = group.name.trim();
+    if (!name) continue;
+    const apiKeys = serializeStringListForYaml(group.apiKeys);
+    if (apiKeys.length === 0) continue;
+    const providers = serializeStringListForYaml(group.providers);
+    out[name] = providers.length > 0 ? { 'api-keys': apiKeys, providers } : { 'api-keys': apiKeys };
+  }
+  return out;
 }
 
 type YamlDocument = ReturnType<typeof parseDocument>;
@@ -1116,6 +1146,11 @@ function alignRebasedValues(
       draft.pluginStoreAuth,
       (rule) => rule.match
     ),
+    accessGroups: alignRebasedEntries(
+      baseline.accessGroups,
+      draft.accessGroups,
+      (group) => group.name
+    ),
   };
 }
 
@@ -1284,6 +1319,12 @@ function getNextDirtyFields(
     updateDirty(
       'pluginStoreAuth',
       arePluginStoreAuthRulesEqual(nextValues.pluginStoreAuth, baselineValues.pluginStoreAuth)
+    );
+  }
+  if (Object.prototype.hasOwnProperty.call(patch, 'accessGroups')) {
+    updateDirty(
+      'accessGroups',
+      withoutEditorIds(nextValues.accessGroups) === withoutEditorIds(baselineValues.accessGroups)
     );
   }
 
@@ -1458,6 +1499,7 @@ function parseVisualValuesFromYaml(yamlContent: string): VisualConfigValues {
 
     authDir: typeof v8Oauth?.['auth-dir'] === 'string' ? v8Oauth?.['auth-dir'] : '',
     apiKeysText: parseApiKeysText(asRecord(parsed.access)?.['api-keys']),
+    accessGroups: parseAccessGroups(asRecord(parsed.access)?.groups),
     pluginsEnabled: Boolean(plugins?.enabled),
     pluginStoreSources: parseStringList(plugins?.['store-sources']),
     pluginStoreAuth: parsePluginStoreAuthRules(plugins?.['store-auth']),
@@ -1745,6 +1787,18 @@ export function useVisualConfig() {
           } else if (docHas(doc, ['access', 'api-keys'])) {
             doc.deleteIn(['access', 'api-keys']);
           }
+        }
+        if (dirtyFields.has('accessGroups')) {
+          const groups = serializeAccessGroups(values.accessGroups);
+          if (Object.keys(groups).length > 0) {
+            ensureMapInDoc(doc, ['access']);
+            doc.setIn(['access', 'groups'], groups);
+          } else if (docHas(doc, ['access', 'groups'])) {
+            doc.deleteIn(['access', 'groups']);
+          }
+        }
+        if (dirtyFields.has('apiKeysText') || dirtyFields.has('accessGroups')) {
+          deleteIfMapEmpty(doc, ['access']);
         }
 
         const pluginsDirty =

@@ -1487,6 +1487,16 @@
           "strong": "很强"
         }
       },
+      "access_groups": {
+        "label": "客户端密钥分组 (access.groups)",
+        "hint": "把指定客户端密钥限制到上游供应商。未进任何分组的密钥仍可用全部供应商。分组内的密钥不必再写进上方列表。",
+        "empty": "暂无分组",
+        "add": "添加分组",
+        "unnamed": "未命名分组",
+        "name": "分组名",
+        "keys": "客户端密钥",
+        "providers": "供应商（如 alysis、claude、gemini）"
+      },
       "payload_rules": {
         "rule": "规则",
         "models": "适用模型",

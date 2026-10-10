@@ -1488,6 +1488,16 @@
           "strong": "Strong"
         }
       },
+      "access_groups": {
+        "label": "Client key groups (access.groups)",
+        "hint": "Limit selected client keys to upstream providers. Keys not in any group can still use every provider. Group keys do not need to be listed above.",
+        "empty": "No groups",
+        "add": "Add group",
+        "unnamed": "Unnamed group",
+        "name": "Group name",
+        "keys": "Client keys",
+        "providers": "Providers (e.g. alysis, claude, gemini)"
+      },
       "payload_rules": {
         "rule": "Rule",
         "models": "Applicable Models",

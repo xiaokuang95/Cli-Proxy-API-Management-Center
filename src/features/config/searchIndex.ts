@@ -320,6 +320,14 @@ export const CONFIG_FIELD_SEARCH_INDEX: ConfigFieldSearchEntry[] = [
     keywords: ['api key', 'apikey', 'token'],
   },
   {
+    fieldId: 'accessGroups',
+    sectionId: 'connectivity',
+    labelKey: L('access_groups.label'),
+    hintKey: L('access_groups.hint'),
+    yamlKeys: ['access', 'groups'],
+    keywords: ['access groups', 'provider group', 'alysis'],
+  },
+  {
     fieldId: 'tlsEnable',
     sectionId: 'connectivity',
     labelKey: L('sections.tls.enable'),

@@ -1488,6 +1488,16 @@
           "strong": "강함"
         }
       },
+      "access_groups": {
+        "label": "클라이언트 키 그룹 (access.groups)",
+        "hint": "선택한 클라이언트 키를 업스트림 공급자로 제한합니다. 그룹에 없는 키는 모든 공급자를 사용할 수 있습니다.",
+        "empty": "그룹 없음",
+        "add": "그룹 추가",
+        "unnamed": "이름 없는 그룹",
+        "name": "그룹 이름",
+        "keys": "클라이언트 키",
+        "providers": "공급자 (예: alysis, claude, gemini)"
+      },
       "payload_rules": {
         "rule": "규칙",
         "models": "적용 가능한 모델",

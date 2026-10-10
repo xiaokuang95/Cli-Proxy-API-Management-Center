@@ -5,8 +5,15 @@
 import { useTranslation } from 'react-i18next';
 import type { VisualConfigValues } from '@/types/visualConfig';
 import { SPONSORS } from '../../sponsors';
+import { AccessGroupsEditor } from '../blocks/AccessGroupsEditor';
 import { ApiKeysCardEditor } from '../blocks/ApiKeysCardEditor';
-import { SettingCell, SettingList, TextSetting, ToggleSetting } from './FieldPrimitives';
+import {
+  BlockSetting,
+  SettingCell,
+  SettingList,
+  TextSetting,
+  ToggleSetting,
+} from './FieldPrimitives';
 import fieldStyles from './Field.module.scss';
 
 export type SharedFieldProps = {
@@ -105,6 +112,25 @@ export function ApiKeysField({ values, disabled, onChange }: SharedFieldProps) {
           onChange={(apiKeysText) => onChange({ apiKeysText })}
         />
       </SettingCell>
+    </SettingList>
+  );
+}
+
+export function AccessGroupsField({ values, disabled, onChange }: SharedFieldProps) {
+  const { t } = useTranslation();
+  return (
+    <SettingList>
+      <BlockSetting
+        fieldId="accessGroups"
+        label={t('config_management.visual.access_groups.label')}
+        description={t('config_management.visual.access_groups.hint')}
+      >
+        <AccessGroupsEditor
+          value={values.accessGroups}
+          disabled={disabled}
+          onChange={(accessGroups) => onChange({ accessGroups })}
+        />
+      </BlockSetting>
     </SettingList>
   );
 }

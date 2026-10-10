@@ -1515,6 +1515,16 @@
           "strong": "很強"
         }
       },
+      "access_groups": {
+        "label": "用戶端金鑰分組 (access.groups)",
+        "hint": "將指定用戶端金鑰限制到上游供應商。未加入任何分組的金鑰仍可使用全部供應商。分組內的金鑰不必再寫進上方清單。",
+        "empty": "暫無分組",
+        "add": "新增分組",
+        "unnamed": "未命名分組",
+        "name": "分組名",
+        "keys": "用戶端金鑰",
+        "providers": "供應商（如 alysis、claude、gemini）"
+      },
       "payload_rules": {
         "rule": "規則",
         "models": "適用模型",

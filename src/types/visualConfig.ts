@@ -102,6 +102,13 @@ export interface StreamingConfig {
   nonstreamKeepaliveInterval: string;
 }
 
+export type AccessGroupDraft = {
+  id: string;
+  name: string;
+  apiKeys: string[];
+  providers: string[];
+};
+
 export type PluginStoreAuthRule = {
   id: string;
   match: string;
@@ -167,6 +174,8 @@ export type VisualConfigValues = {
   authDir: string;
   /** Client authentication keys at access.api-keys (never the upstream api-keys map). */
   apiKeysText: string;
+  /** Named client-key groups at access.groups. */
+  accessGroups: AccessGroupDraft[];
   pluginsEnabled: boolean;
   pluginStoreSources: string[];
   pluginStoreAuth: PluginStoreAuthRule[];
@@ -271,6 +280,7 @@ export const DEFAULT_VISUAL_VALUES: VisualConfigValues = {
   rmPanelRepo: '',
   authDir: '',
   apiKeysText: '',
+  accessGroups: [],
   pluginsEnabled: false,
   pluginStoreSources: [],
   pluginStoreAuth: [],

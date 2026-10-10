@@ -5,6 +5,7 @@ import { getValidationMessage } from '../blocks/shared';
 import { SectionCard } from '../SectionCard';
 import { SettingList } from '../fields/FieldPrimitives';
 import {
+  AccessGroupsField,
   ApiKeysField,
   DebugToggle,
   HostField,
@@ -46,6 +47,7 @@ export function SectionCommon({
       </SettingList>
 
       <ApiKeysField {...fieldProps} />
+      <AccessGroupsField {...fieldProps} />
 
       <SettingList>
         <DebugToggle {...fieldProps} />
