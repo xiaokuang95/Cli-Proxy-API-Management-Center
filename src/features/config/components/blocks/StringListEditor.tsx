@@ -10,12 +10,16 @@ export const StringListEditor = memo(function StringListEditor({
   disabled,
   placeholder,
   inputAriaLabel,
+  generateValue,
+  generateLabel,
   onChange,
 }: {
   value: string[];
   disabled?: boolean;
   placeholder?: string;
   inputAriaLabel?: string;
+  generateValue?: () => string;
+  generateLabel?: string;
   onChange: (next: string[]) => void;
 }) {
   const { t } = useTranslation();
@@ -32,9 +36,9 @@ export const StringListEditor = memo(function StringListEditor({
 
   const updateItem = (index: number, nextValue: string) =>
     onChange(items.map((item, i) => (i === index ? nextValue : item)));
-  const addItem = () => {
+  const addItem = (nextValue = '') => {
     setItemIds([...renderItemIds, makeClientId()]);
-    onChange([...items, '']);
+    onChange([...items, nextValue]);
   };
   const removeItem = (index: number) => {
     setItemIds(renderItemIds.filter((_, i) => i !== index));
@@ -52,15 +56,35 @@ export const StringListEditor = memo(function StringListEditor({
             onChange={(nextValue) => updateItem(index, nextValue)}
             disabled={disabled}
           />
+          {generateValue ? (
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => updateItem(index, generateValue())}
+              disabled={disabled}
+            >
+              {generateLabel ?? t('config_management.visual.api_keys.generate')}
+            </Button>
+          ) : null}
           <Button variant="ghost" size="sm" onClick={() => removeItem(index)} disabled={disabled}>
             {t('config_management.visual.common.delete')}
           </Button>
         </div>
       ))}
       <div className={styles.actionRow}>
-        <Button variant="secondary" size="sm" onClick={addItem} disabled={disabled}>
+        <Button variant="secondary" size="sm" onClick={() => addItem()} disabled={disabled}>
           {t('config_management.visual.common.add')}
         </Button>
+        {generateValue ? (
+          <Button
+            variant="secondary"
+            size="sm"
+            onClick={() => addItem(generateValue())}
+            disabled={disabled}
+          >
+            {generateLabel ?? t('config_management.visual.api_keys.generate')}
+          </Button>
+        ) : null}
       </div>
     </div>
   );

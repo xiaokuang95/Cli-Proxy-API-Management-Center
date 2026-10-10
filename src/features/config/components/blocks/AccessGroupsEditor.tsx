@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { Button } from '@/components/ui/Button';
 import { pluginsApi } from '@/services/api';
 import { makeClientId, type AccessGroupDraft } from '@/types/visualConfig';
+import { generateSecureApiKey } from '@/utils/apiKey';
 import { ExpandableInput } from './ExpandableInput';
 import { StringListEditor } from './StringListEditor';
 import styles from './Blocks.module.scss';
@@ -132,6 +133,7 @@ export const AccessGroupsEditor = memo(function AccessGroupsEditor({
                 value={group.apiKeys}
                 disabled={disabled}
                 placeholder="sk-..."
+                generateValue={generateSecureApiKey}
                 onChange={(apiKeys) => updateGroup(group.id, { apiKeys })}
               />
             </div>
