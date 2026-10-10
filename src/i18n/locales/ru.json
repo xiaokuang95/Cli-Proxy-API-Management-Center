@@ -1499,7 +1499,7 @@
         "unnamed": "Безымянная группа",
         "name": "Имя группы",
         "keys": "Клиентские ключи",
-        "providers": "Поставщики (например alysis, claude, gemini)"
+        "providers": "Поставщики"
       },
       "payload_rules": {
         "rule": "Правило",

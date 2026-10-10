@@ -1496,7 +1496,7 @@
         "unnamed": "이름 없는 그룹",
         "name": "그룹 이름",
         "keys": "클라이언트 키",
-        "providers": "공급자 (예: alysis, claude, gemini)"
+        "providers": "공급자"
       },
       "payload_rules": {
         "rule": "규칙",

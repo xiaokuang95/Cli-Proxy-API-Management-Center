@@ -1496,7 +1496,7 @@
         "unnamed": "Unnamed group",
         "name": "Group name",
         "keys": "Client keys",
-        "providers": "Providers (e.g. alysis, claude, gemini)"
+        "providers": "Providers"
       },
       "payload_rules": {
         "rule": "Rule",

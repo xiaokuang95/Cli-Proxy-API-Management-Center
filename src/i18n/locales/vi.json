@@ -1289,7 +1289,7 @@
         "unnamed": "Nhóm chưa đặt tên",
         "name": "Tên nhóm",
         "keys": "Khóa client",
-        "providers": "Nhà cung cấp (ví dụ alysis, claude, gemini)"
+        "providers": "Nhà cung cấp"
       },
       "payload_rules": {
         "rule": "Quy tắc",
